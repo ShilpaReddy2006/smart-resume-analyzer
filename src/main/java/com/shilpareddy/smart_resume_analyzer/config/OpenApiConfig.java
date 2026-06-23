@@ -7,26 +7,32 @@ package com.shilpareddy.smart_resume_analyzer.config;
     import io.swagger.v3.oas.models.security.SecurityScheme;
     import org.springframework.context.annotation.Bean;
     import org.springframework.context.annotation.Configuration;
+@Configuration
+public class SwaggerConfig {
 
-    @Configuration
-    public class OpenApiConfig {
+    private static final String SECURITY_SCHEME_NAME = "bearerAuth";
 
-        @Bean
-        public OpenAPI customOpenAPI() {
-            return new OpenAPI()
-                    .info(new Info()
-                            .title("Smart Resume Analyzer API")
-                            .version("1.0")
-                            .description("Resume Analyzer Backend APIs"))
-                    
-                   
-                    
-                    .components(new Components()
-                            .addSecuritySchemes("bearerAuth",
-                                    new SecurityScheme()
-                                            .type(SecurityScheme.Type.HTTP)
-                                            .scheme("bearer")
-                                            .bearerFormat("JWT")));
-        }
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Smart Resume Analyzer API")
+                        .version("1.0")
+                        .description("JWT secured API documentation"))
+
+                // Add global security requirement
+                .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
+
+                // Define security scheme
+                .components(new io.swagger.v3.oas.models.Components()
+                        .addSecuritySchemes(SECURITY_SCHEME_NAME,
+                                new SecurityScheme()
+                                        .name(SECURITY_SCHEME_NAME)
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                        )
+                );
     }
+}
 
