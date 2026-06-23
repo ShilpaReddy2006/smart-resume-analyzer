@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
+@Configuration
 @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -14,24 +14,27 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .csrf(csrf -> csrf.disable())
 
         .authorizeHttpRequests(auth -> auth
+            // Swagger MUST be fully open
             .requestMatchers(
-                "/v3/api-docs/**",
                 "/swagger-ui/**",
                 "/swagger-ui.html",
-                "/swagger-ui/index.html"
+                "/swagger-ui/index.html",
+                "/v3/api-docs/**",
+                "/v3/api-docs"
             ).permitAll()
 
-            .requestMatchers("/auth/**").permitAll() // if you have login/register APIs
+            // your APIs (optional secure)
+            .requestMatchers("/auth/**").permitAll()
 
             .anyRequest().authenticated()
         )
 
-        // IMPORTANT: disable default login pages for REST APIs
+        // IMPORTANT for Swagger + REST APIs
         .formLogin(form -> form.disable())
         .httpBasic(httpBasic -> httpBasic.disable());
 
     return http.build();
-        }
+              }
     
     @Bean
     public PasswordEncoder passwordEncoder() {
