@@ -18,7 +18,7 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Smart Resume Analyzer API")
                         .version("1.0")
-                        .description("JWT secured API documentation"))
+                        .description("JWT secured API documentation")) 
 
                 // Add global security requirement
                 .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
