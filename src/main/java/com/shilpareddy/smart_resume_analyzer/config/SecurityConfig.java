@@ -7,9 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-public class SecurityConfig {
-    @Bean
+@Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     http
@@ -23,14 +21,17 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                 "/swagger-ui/index.html"
             ).permitAll()
 
+            .requestMatchers("/auth/**").permitAll() // if you have login/register APIs
+
             .anyRequest().authenticated()
         )
 
-        .formLogin(form -> form.disable())   // IMPORTANT for APIs
+        // IMPORTANT: disable default login pages for REST APIs
+        .formLogin(form -> form.disable())
         .httpBasic(httpBasic -> httpBasic.disable());
 
     return http.build();
-}
+        }
     
     @Bean
     public PasswordEncoder passwordEncoder() {
