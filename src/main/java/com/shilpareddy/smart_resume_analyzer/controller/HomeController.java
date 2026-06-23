@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 
 public class HomeController {
-	@GetMapping("/ping")
+	@GetMapping("/health")
 	public String ping() {
-		return "smart resume analyzer is running";
+		return "smart resume analyzer is running successfully!";
 	}
 
 }
