@@ -9,8 +9,8 @@ import java.util.Date;
 
 public class JwtUtil {
 
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
+    private static final String SECRET="my-security-key-should-be-in-env-variable";
+    private static final Key key=Keys.hmacShaKeyFor(SECRET.getBytes());
     public static String generateToken(String email) {
 
         return Jwts.builder()

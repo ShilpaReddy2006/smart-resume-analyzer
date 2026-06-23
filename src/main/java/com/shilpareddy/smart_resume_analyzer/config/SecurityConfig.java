@@ -16,9 +16,12 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**","/resume/**","/insight/**","/recommend/**","/swagger-ui/**","/v3/api-docs/**","/swagger-ui.html").permitAll()
-                .anyRequest().authenticated()
-            );
+            		.requestMatchers("/v3/api-docs/**","/swagger-ui/**","/swagger-ui.html","/swagger-ui/index.html")
+            		.permitAll()
+                .anyRequest().permitAll()
+            )
+            .formLogin(form ->form.disable())
+            .httpBasic(basic -> basic.disable());
 
         return http.build();
     }

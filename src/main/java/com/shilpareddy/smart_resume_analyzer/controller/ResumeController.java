@@ -21,6 +21,7 @@ public class ResumeController {
 
     @Autowired
     private ResumeService resumeService;
+    @Autowired
     private ResumeRepository resumeRepository;
     @GetMapping("/all")
     public List<Resume> getAllResumes() {
